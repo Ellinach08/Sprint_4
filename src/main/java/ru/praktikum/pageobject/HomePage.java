@@ -1,4 +1,4 @@
-package ru.praktikum.pageObject;
+package ru.praktikum.pageobject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -7,8 +7,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static ru.praktikum.pageObject.constants.OrderButtons.BOTTOM_ORDER_BUTTON;
-import static ru.praktikum.pageObject.constants.OrderButtons.TOP_ORDER_BUTTON;
+import static org.junit.Assert.assertEquals;
+import static ru.praktikum.pageobject.constants.OrderButtons.BOTTOM_ORDER_BUTTON;
+import static ru.praktikum.pageobject.constants.OrderButtons.TOP_ORDER_BUTTON;
 
 public class HomePage {
     //Заголовок страницы
@@ -19,9 +20,14 @@ public class HomePage {
     private final By bottomOrderButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
     //Блок "Вопросы о важном"
     private final By questionsHeader = By.className("Home_FourPart__1uthg");
+    //Переменная с вопросом на главной странице с подстановкой
+    private final String question = "accordion__heading-%s";
+    //Переменная с ответом на главной странице с подстановкой
+    private final String answer = "accordion__panel-%s";
+
     //Кнопка Cookies
     private final By cookiesButton = By.className("App_CookieButton__3cvqF");
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -33,19 +39,6 @@ public class HomePage {
             driver.findElement(homeHeader).getText();
             return !driver.findElement(homeHeader).getText().isEmpty();
         });
-    }
-
-    //Метод ожидания загрузки ответа на вопрос
-    public void waitLoadAfterClickQuestion(By accordionLabel) {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(driver -> {
-            driver.findElement(accordionLabel).getText();
-            return !driver.findElement(accordionLabel).getText().isEmpty();
-        });
-    }
-
-    //Метод прокрутки к блоку "Вопросы о важном"
-    public void scrollToQuestions() {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(questionsHeader));
     }
 
     //Метод нажатия верхней кнопки "Заказать"
@@ -62,16 +55,35 @@ public class HomePage {
     public void clickCreateOrderButton(String button) {
         if (button.equals(TOP_ORDER_BUTTON)) {
             clickTopOrderButton();
-        } else if (button.equals(BOTTOM_ORDER_BUTTON)) {;
+        } else if (button.equals(BOTTOM_ORDER_BUTTON)) {
             clickBottomOrderButton();
         }
     }
 
+    //Метод прокрутки к блоку "Вопросы о важном"
+    public void scrollToQuestions() {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(questionsHeader));
+    }
+
     //Метод нажатия вопросов в блоке "Вопросы о важном"
-    public void clickQuestion(By question) {
+    public void clickQuestion(String questionNum) {
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(question))
+                .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id(String.format(question, questionNum)))))
                 .click();
+    }
+
+    //Метод ожидания загрузки ответа на вопрос
+    public void waitLoadAfterClickQuestion(String answerNum) {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(driver -> {
+            driver.findElement(By.id(String.format(answer, answerNum))).getText();
+            return !driver.findElement(By.id(String.format(answer, answerNum))).getText().isEmpty();
+        });
+    }
+
+    //Метод сравнения ожидаемого текста в ответе
+    public void compareAnswer(String answerNum, String expected) {
+        String result = driver.findElement(By.id(String.format(answer, answerNum))).getText();
+        assertEquals(expected, result);
     }
 
     //Метод нажатия кнопки с Cookie

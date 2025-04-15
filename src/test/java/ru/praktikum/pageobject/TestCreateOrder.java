@@ -1,4 +1,4 @@
-package ru.praktikum.pageObject;
+package ru.praktikum.pageobject;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
@@ -8,18 +8,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-import static org.junit.Assert.assertTrue;
-
-import static ru.praktikum.pageObject.constants.OrderButtons.BOTTOM_ORDER_BUTTON;
-import static ru.praktikum.pageObject.constants.OrderButtons.TOP_ORDER_BUTTON;
-import static ru.praktikum.pageObject.constants.LeaseTimeConstants.*;
-import static ru.praktikum.pageObject.constants.ScooterColours.BLACK_COLOUR;
-import static ru.praktikum.pageObject.constants.ScooterColours.GREY_COLOUR;
+import static ru.praktikum.pageobject.constants.HomePageConstants.URL_NAME;
+import static ru.praktikum.pageobject.constants.OrderButtons.BOTTOM_ORDER_BUTTON;
+import static ru.praktikum.pageobject.constants.OrderButtons.TOP_ORDER_BUTTON;
+import static ru.praktikum.pageobject.constants.LeaseTimeConstants.*;
+import static ru.praktikum.pageobject.constants.ScooterColours.BLACK_COLOUR;
+import static ru.praktikum.pageobject.constants.ScooterColours.GREY_COLOUR;
 
 @RunWith(Parameterized.class)
-public class TestCreateOrder {
+public class TestCreateOrder{
     //Тестирование заказа самоката
     private final String firstName;
     private final String lastName;
@@ -31,7 +29,6 @@ public class TestCreateOrder {
     private final String scooterColour;
     private final String comment;
     private final String createOrderButton;
-    private final String site = "https://qa-scooter.praktikum-services.ru/";
     private WebDriver driver;
 
     public TestCreateOrder(String createOrderButton, String firstName, String lastName, String address,
@@ -62,20 +59,13 @@ public class TestCreateOrder {
 
     @Before
     public void startUp() {
-        //Тестирование в Firefox
-        //WebDriverManager.firefoxdriver().setup();
-        //driver = new FirefoxDriver();
-
-        //Тестирование в Chrome
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
-        driver.get(site);
+        driver.get(URL_NAME);
     }
 
     @Test
     public void testCreateOrderButton() {
-
         HomePage homePage = new HomePage(driver);
         homePage.waitForLoadHomePage();
         homePage.clickCookiesButton();
@@ -101,9 +91,7 @@ public class TestCreateOrder {
         ApproveOrderPage approveOrderPage = new ApproveOrderPage(driver);
         approveOrderPage.waitForLoadApproveOrderPage();
         approveOrderPage.clickApproveButton();
-
-        String expectedHeader = "Заказ оформлен";
-        assertTrue(approveOrderPage.getHeaderAfterCreateOrder().contains(expectedHeader));
+        approveOrderPage.waitHeaderAfterCreateOrder();
     }
 
     @After

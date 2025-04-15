@@ -1,10 +1,10 @@
-package ru.praktikum.pageObject;
+package ru.praktikum.pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.praktikum.pageObject.constants.ScooterColours;
+import ru.praktikum.pageobject.constants.ScooterColours;
 
 import java.time.Duration;
 

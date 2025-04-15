@@ -1,4 +1,4 @@
-package ru.praktikum.pageObject;
+package ru.praktikum.pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +25,7 @@ public class OrderPage {
     private final By phone = By.xpath(".//input[@placeholder='* Телефон: на него позвонит курьер']");
     //Кнопка "Далее"
     private final By nextButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Далее']");
-    WebDriver driver;
+    private final WebDriver driver;
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;

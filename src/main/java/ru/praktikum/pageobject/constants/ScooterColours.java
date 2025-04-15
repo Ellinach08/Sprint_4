@@ -1,4 +1,4 @@
-package ru.praktikum.pageObject.constants;
+package ru.praktikum.pageobject.constants;
 
 public class ScooterColours {
     //Цвета самокатов
