@@ -26,14 +26,14 @@ public class TestHomePage {
      @Parameterized.Parameters
     public static Object[][] getTestData() {
         return new Object[][]{
-                {"0", howMuchAnswer},
-                {"1", coupleOfScooterAnswer},
-                {"2", leaseTimeCountAnswer},
-                {"3", orderDayAnswer},
-                {"4", orderProlongAnswer},
-                {"5", scooterChargeAnswer},
-                {"6", orderCancelAnswer},
-                {"7", locationAnswer},
+                {"0", HOW_MUCH_ANSWER},
+                {"1", COUPLE_OF_SCOOTER_ANSWER},
+                {"2", LEASE_TIME_COUNT_ANSWER},
+                {"3", ORDER_DAY_ANSWER},
+                {"4", ORDER_PROLONG_ANSWER},
+                {"5", SCOOTER_CHARGE_ANSWER},
+                {"6", ORDER_CANCEL_ANSWER},
+                {"7", LOCATION_ANSWER},
         };
     }
 
